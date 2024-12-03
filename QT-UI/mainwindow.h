@@ -7,6 +7,10 @@
 #include <QDoubleSpinBox>
 #include <QPushButton>
 #include <QTextBrowser>
+#include <QtGamepad>
+#include <QGamepadManager>
+#include <QQmlApplicationEngine>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -33,12 +37,15 @@ private slots:
     // 网络数据处理
     void onSocketConnected();
     void onSocketDisconnected();
-    void onSocketError(QAbstractSocket::SocketError socketError);
+    //void onSocketError(QAbstractSocket::SocketError socketError);
     void onSocketReadyRead();
+    void onGamepadAxisChanged(int axis, double value);     // 用于处理手柄输入
+    void onGamepadTriggerChanged(double leftTrigger, double rightTrigger); // 用于处理手柄扳机输入
 
 private:
     Ui::MainWindow *ui;
     QTcpSocket *socket;
+    QGamepad *gamepad;
 
     // 辅助方法
     void logMessage(const QString &message); // 控制台日志输出

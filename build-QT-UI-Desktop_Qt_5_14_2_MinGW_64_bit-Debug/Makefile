@@ -248,8 +248,12 @@ Makefile: ../QT-UI/QT-UI.pro ../../qt/5.14.2/mingw73_64/mkspecs/win32-g++/qmake.
 		../../qt/5.14.2/mingw73_64/mkspecs/features/yacc.prf \
 		../../qt/5.14.2/mingw73_64/mkspecs/features/lex.prf \
 		../QT-UI/QT-UI.pro \
+		../../qt/5.14.2/mingw73_64/lib/Qt5Gamepad.prl \
+		../../qt/5.14.2/mingw73_64/lib/Qt5Quick.prl \
 		../../qt/5.14.2/mingw73_64/lib/Qt5Widgets.prl \
 		../../qt/5.14.2/mingw73_64/lib/Qt5Gui.prl \
+		../../qt/5.14.2/mingw73_64/lib/Qt5QmlModels.prl \
+		../../qt/5.14.2/mingw73_64/lib/Qt5Qml.prl \
 		../../qt/5.14.2/mingw73_64/lib/Qt5Network.prl \
 		../../qt/5.14.2/mingw73_64/lib/Qt5Core.prl \
 		../../qt/5.14.2/mingw73_64/lib/qtmain.prl \
@@ -433,8 +437,12 @@ Makefile: ../QT-UI/QT-UI.pro ../../qt/5.14.2/mingw73_64/mkspecs/win32-g++/qmake.
 ../../qt/5.14.2/mingw73_64/mkspecs/features/yacc.prf:
 ../../qt/5.14.2/mingw73_64/mkspecs/features/lex.prf:
 ../QT-UI/QT-UI.pro:
+../../qt/5.14.2/mingw73_64/lib/Qt5Gamepad.prl:
+../../qt/5.14.2/mingw73_64/lib/Qt5Quick.prl:
 ../../qt/5.14.2/mingw73_64/lib/Qt5Widgets.prl:
 ../../qt/5.14.2/mingw73_64/lib/Qt5Gui.prl:
+../../qt/5.14.2/mingw73_64/lib/Qt5QmlModels.prl:
+../../qt/5.14.2/mingw73_64/lib/Qt5Qml.prl:
 ../../qt/5.14.2/mingw73_64/lib/Qt5Network.prl:
 ../../qt/5.14.2/mingw73_64/lib/Qt5Core.prl:
 ../../qt/5.14.2/mingw73_64/lib/qtmain.prl:

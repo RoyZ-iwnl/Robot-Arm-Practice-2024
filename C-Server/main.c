@@ -86,28 +86,24 @@ void process_command(int client_fd, int serial_fd, const unsigned char *buffer, 
         return;
     }
 
-    // 指令类型（第二个字节）
-    unsigned char command_type = buffer[1];
-    if (command_type != 0x01) {
-        printf("无效的指令类型\n");
+    // 指令类型（第二个字节，轴号）
+    unsigned char axis = buffer[1];
+    if (axis > 5) {
+        printf("无效的轴号\n");
         return;
     }
 
-    // 轴编号（第三个字节）
-    unsigned char axis = buffer[2];
-
-    // 角度数据（第四个字节，假设角度是一个整数，且我们只取低8位）
-    unsigned char angle = buffer[3];
+    // 角度数据（第三个字节）
+    unsigned char angle = buffer[2];
 
     // 打印指令内容
     printf("收到控制面板指令：\n");
     printf("包头: 0xAA\n");
-    printf("指令类型: 0x01 (设置角度)\n");
-    printf("轴编号: %d\n", axis + 1);  // 轴编号从1开始
+    printf("轴编号: %d\n", axis + 1);  // 轴编号从1开始，axis从0开始
     printf("角度: %d°\n", angle);
 
     // 向STM32发送控制命令
-    unsigned char stm32_command[4] = {0xAA, 0x01, axis, angle};
+    unsigned char stm32_command[3] = {0xAA, axis, angle};
     send_to_stm32(serial_fd, stm32_command, sizeof(stm32_command));
 
     // 向客户端发送确认消息
@@ -115,6 +111,7 @@ void process_command(int client_fd, int serial_fd, const unsigned char *buffer, 
     snprintf(response, sizeof(response), "指令已收到：轴 %d 的角度设置为 %d°", axis + 1, angle);
     send_response(client_fd, response);
 }
+
 
 // 监听并接收控制面板指令
 void listen_and_debug() {

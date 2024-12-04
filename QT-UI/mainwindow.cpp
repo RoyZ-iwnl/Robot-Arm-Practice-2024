@@ -4,7 +4,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), socket(new QTcpSocket(this)) {
     ui->setupUi(this);
-    this->setWindowTitle("机械臂控制中心 By:RoyZ v0.1 Alpha");
+    this->setWindowTitle("机械臂控制中心v0.2 Beta By:RoyZ");
 
     // 1. 角度控制面板：滑块与 SpinBox 联动
     for (int i = 0; i < 6; ++i) {
@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
         // 点击按钮发送指令
         connect(button, &QPushButton::clicked, this, &MainWindow::onSendAngleClicked);
     }
+    connect(ui->ButtonSendALL, &QPushButton::clicked, this, &MainWindow::onSendAllAnglesClicked);
 
     // 2. 连接面板：连接、断开、测试、QUIT按钮
     connect(ui->ButtonConnect, &QPushButton::clicked, this, &MainWindow::onConnectClicked);
@@ -67,7 +68,6 @@ void MainWindow::onSendAngleClicked() {
     double angle = spinBox->value();
     QByteArray command;
     command.append(0xAA); // 包头
-    command.append(0x01); // 指令类型（设置角度）
     command.append(axis); // 轴编号
     command.append(static_cast<int>(angle) & 0xFF); // 角度数据（示例：简单发送整数部分）
 
@@ -78,6 +78,37 @@ void MainWindow::onSendAngleClicked() {
         logMessage("发送失败：未连接到服务器");
     }
 }
+
+void MainWindow::onSendAllAnglesClicked() {
+    // 依次发送每个轴的角度值，并等待响应
+    for (int i = 0; i < 6; ++i) {
+        QSlider *slider = findChild<QSlider*>(QString("slider%1").arg(i+1));
+        int axis = i; // 轴编号
+        double angle = slider->value();
+
+        QByteArray command;
+        command.append(0xAA); // 包头
+        command.append(axis); // 轴编号
+        command.append(static_cast<int>(angle) & 0xFF); // 角度数据（示例：简单发送整数部分）
+
+        if (socket->isOpen()) {
+            socket->write(command);
+            if (socket->waitForBytesWritten()) {  // 等待数据写入完成
+                if (socket->waitForReadyRead()) {  // 等待服务器响应
+                    QByteArray response = socket->readAll();
+                    logMessage(QString("收到服务器响应: %1").arg(QString(response)));
+                }
+            }
+        } else {
+            logMessage("发送失败：未连接到服务器");
+        }
+
+        // 等待服务器处理完前一个指令再发送下一个
+        QThread::msleep(100);
+    }
+}
+
+
 
 // 连接面板：连接服务器
 void MainWindow::onConnectClicked() {

@@ -4,6 +4,8 @@
 ## DON'T USE IT ! JUST SOME SHIT CODE !
 ## ONLY Chinese
 
+### 个人的一个学校实训项目，纯属练习，没有可参考价值
+
 ### SOFTWARE
 QT 5.14.2<br>
 Server ON Ubuntu 20

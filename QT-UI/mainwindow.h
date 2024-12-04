@@ -7,6 +7,8 @@
 #include <QDoubleSpinBox>
 #include <QPushButton>
 #include <QTextBrowser>
+#include <QThread>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,7 +24,8 @@ public:
 private slots:
     // 角度控制槽函数
     void onSliderValueChanged(int value);    // 滑块更新角度
-    void onSendAngleClicked();               // 发送角度指令
+    void onSendAngleClicked(); 
+    void onSendAllAnglesClicked ();             // 发送角度指令
 
     // 连接面板槽函数
     void onConnectClicked();                 // 连接服务器

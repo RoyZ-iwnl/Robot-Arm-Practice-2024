@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1137</width>
-    <height>771</height>
+    <width>1094</width>
+    <height>734</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -551,7 +551,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>450</x>
       <y>580</y>
       <width>171</width>
       <height>81</height>
@@ -634,7 +634,7 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>870</x>
+      <x>830</x>
       <y>0</y>
       <width>261</width>
       <height>31</height>
@@ -647,7 +647,7 @@
      </font>
     </property>
     <property name="text">
-     <string>v0.2 Beta Designed by：RoyZ</string>
+     <string>v1.0 Alpha Designed by：RoyZ</string>
     </property>
    </widget>
    <widget class="QPushButton" name="ButtonSend5">
@@ -666,8 +666,8 @@
    <widget class="QPushButton" name="ButtonQuit">
     <property name="geometry">
      <rect>
-      <x>800</x>
-      <y>360</y>
+      <x>770</x>
+      <y>830</y>
       <width>93</width>
       <height>28</height>
      </rect>
@@ -692,7 +692,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Robot ARM Contol Center</string>
+     <string>Robot ARM Control Center</string>
     </property>
     <property name="textFormat">
      <enum>Qt::RichText</enum>

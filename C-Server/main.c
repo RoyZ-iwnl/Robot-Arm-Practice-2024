@@ -115,7 +115,7 @@ void Scrach(int fd) {
     unsigned char BUF[2][3] = 
     {
         {0xaa,0x04,0x3c},    // 夹子张开
-        {0xaa,0x04,0x70},    // 夹子夹紧
+        {0xaa,0x04,0x82},    // 夹子夹紧
     };
     for(int i = 0;i < 2;i++) {
         write(fd,BUF[i],3);

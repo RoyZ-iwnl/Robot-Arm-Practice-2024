@@ -55,4 +55,4 @@ compile_commands.json
 *_qmlcache.qrc
 .qtc_clangd/
 QT-UI(Sample)/
-QT-UI/build/Qt_5_14_2_mingw73_64-Release/release/QT-UI.exe
+QT-UI/build/

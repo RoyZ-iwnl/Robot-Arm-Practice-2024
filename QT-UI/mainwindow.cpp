@@ -6,6 +6,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     this->setWindowTitle("机械臂控制中心v0.2 Beta By:RoyZ");
 
+
+
+
     // 1. 角度控制面板：滑块与 SpinBox 联动
     for (int i = 0; i < 6; ++i) {
         QSlider *slider = findChild<QSlider*>(QString("slider%1").arg(i+1));
@@ -31,8 +34,17 @@ MainWindow::MainWindow(QWidget *parent)
 
         // 点击按钮发送指令
         connect(button, &QPushButton::clicked, this, &MainWindow::onSendAngleClicked);
+
+        // 实时发送滑块角度
+        connect(slider, &QSlider::valueChanged, this, &MainWindow::onSliderValueChanged);
     }
+
     connect(ui->ButtonSendALL, &QPushButton::clicked, this, &MainWindow::onSendAllAnglesClicked);
+    connect(ui->ButtonReset, &QPushButton::clicked, this, &MainWindow::onResetClicked);
+    connect(ui->ButtonLeft, &QPushButton::clicked, this, &MainWindow::onLeftClicked);
+    connect(ui->ButtonRight, &QPushButton::clicked, this, &MainWindow::onRightClicked);
+    connect(ui->ButtonScrach, &QPushButton::clicked, this, &MainWindow::onScrachClicked);
+    connect(ui->ButtonPush, &QPushButton::clicked, this, &MainWindow::onPushClicked);
 
     // 2. 连接面板：连接、断开、测试、QUIT按钮
     connect(ui->ButtonConnect, &QPushButton::clicked, this, &MainWindow::onConnectClicked);
@@ -51,13 +63,6 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
-// 角度控制：滑条更新角度
-void MainWindow::onSliderValueChanged(int value) {
-    QSlider *slider = qobject_cast<QSlider*>(sender());
-    int axis = slider->objectName().right(1).toInt() - 1; // 获取轴编号
-    QDoubleSpinBox *spinBox = findChild<QDoubleSpinBox*>(QString("spinBox%1").arg(axis+1));
-    spinBox->setValue(static_cast<double>(value));  // 更新 SpinBox
-}
 
 // 角度控制：发送指令
 void MainWindow::onSendAngleClicked() {
@@ -78,6 +83,27 @@ void MainWindow::onSendAngleClicked() {
         logMessage("发送失败：未连接到服务器");
     }
 }
+
+void MainWindow::onSliderValueChanged(int value) {
+    QSlider *slider = qobject_cast<QSlider*>(sender());
+    int axis = slider->objectName().right(1).toInt() - 1; // 获取轴编号
+    QDoubleSpinBox *spinBox = findChild<QDoubleSpinBox*>(QString("spinBox%1").arg(axis+1));
+    spinBox->setValue(static_cast<double>(value));  // 更新 SpinBox
+
+    // Send the updated angle to the server
+    QByteArray command;
+    command.append(0xAA); // 包头
+    command.append(axis); // 轴编号
+    command.append(static_cast<int>(value) & 0xFF); // 角度数据（示例：简单发送整数部分）
+
+    if (socket->isOpen()) {
+        socket->write(command);
+        logMessage(QString("实时发送轴 %1 的角度：%2°").arg(axis+1).arg(value));
+    } else {
+        logMessage("发送失败：未连接到服务器");
+    }
+}
+
 
 void MainWindow::onSendAllAnglesClicked() {
     // 依次发送每个轴的角度值，并等待响应
@@ -108,6 +134,122 @@ void MainWindow::onSendAllAnglesClicked() {
     }
 }
 
+void MainWindow::onResetClicked() {
+    if (socket->isOpen()) {
+            // 确认服务器收到并重置后，重置所有 SpinBox
+        for (int i = 0; i < 6; ++i) {
+            QDoubleSpinBox *spinBox = findChild<QDoubleSpinBox*>(QString("spinBox%1").arg(i+1));
+            if (spinBox) {
+                spinBox->setValue(90); // 将 SpinBox 的值重置为 0
+            }
+        logMessage(QString("正在重置轴的角度"));
+        }
+        if (socket->waitForBytesWritten()) {
+            // 等待数据写入完成
+            if (socket->waitForReadyRead()) {
+                // 等待服务器响应
+                QByteArray response = socket->readAll();
+            }
+        }
+    } else {
+        logMessage("发送失败：未连接到服务器");
+    }
+    /*
+    QByteArray command;
+    command.append(0xBB); // BB包头
+    command.append(static_cast<char>(0x00)); // 重置命令
+    if (socket->isOpen()) {
+        socket->write(command);
+        if (socket->waitForBytesWritten()) {
+            // 等待数据写入完成
+            if (socket->waitForReadyRead()) {
+                // 等待服务器响应
+                QByteArray response = socket->readAll();
+                logMessage(QString("正在重置轴的角度"));
+
+                // 确认服务器收到并重置后，重置所有 SpinBox
+                for (int i = 0; i < 6; ++i) {
+                    QDoubleSpinBox *spinBox = findChild<QDoubleSpinBox*>(QString("spinBox%1").arg(i+1));
+                    if (spinBox) {
+                        spinBox->setValue(90); // 将 SpinBox 的值重置为 0
+                    }
+                }
+            }
+        }
+    } else {
+        logMessage("发送失败：未连接到服务器");
+    }*/
+}
+
+
+
+void MainWindow::onLeftClicked() {
+        QByteArray command;
+        command.append(0xBB); // BB包头
+        command.append(static_cast<char>(0x01));
+        logMessage(QString("正在整体左移"));
+        if (socket->isOpen()) {
+            socket->write(command);
+            if (socket->waitForBytesWritten()) {  // 等待数据写入完成
+                if (socket->waitForReadyRead()) {  // 等待服务器响应
+                    QByteArray response = socket->readAll();
+                }
+            }
+        } else {
+            logMessage("发送失败：未连接到服务器");
+        }
+}
+
+void MainWindow::onRightClicked() {
+        QByteArray command;
+        command.append(0xBB); // BB包头
+        command.append(static_cast<char>(0x02));
+        logMessage(QString("正在整体右移"));
+        if (socket->isOpen()) {
+            socket->write(command);
+            if (socket->waitForBytesWritten()) {  // 等待数据写入完成
+                if (socket->waitForReadyRead()) {  // 等待服务器响应
+                    QByteArray response = socket->readAll();
+                }
+            }
+        } else {
+            logMessage("发送失败：未连接到服务器");
+        }
+}
+
+void MainWindow::onScrachClicked() {
+        QByteArray command;
+        command.append(0xBB); // BB包头
+        command.append(static_cast<char>(0x03));
+        logMessage(QString("正在抓取"));
+        if (socket->isOpen()) {
+            socket->write(command);
+            if (socket->waitForBytesWritten()) {  // 等待数据写入完成
+                if (socket->waitForReadyRead()) {  // 等待服务器响应
+                    QByteArray response = socket->readAll();
+                }
+            }
+        } else {
+            logMessage("发送失败：未连接到服务器");
+        }
+}
+
+void MainWindow::onPushClicked() {
+        QByteArray command;
+        command.append(0xBB); // BB包头
+        command.append(static_cast<char>(0x04));
+        logMessage(QString("正在放下"));
+        if (socket->isOpen()) {
+            socket->write(command);
+            if (socket->waitForBytesWritten()) {  // 等待数据写入完成
+                if (socket->waitForReadyRead()) {  // 等待服务器响应
+                    QByteArray response = socket->readAll();
+                }
+            }
+        } else {
+            logMessage("发送失败：未连接到服务器");
+        }
+}
 
 
 // 连接面板：连接服务器

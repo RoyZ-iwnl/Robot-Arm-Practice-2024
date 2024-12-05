@@ -551,10 +551,10 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>460</x>
       <y>580</y>
-      <width>191</width>
-      <height>91</height>
+      <width>171</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="font">
@@ -699,6 +699,71 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ButtonReset">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>600</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>重置为90°</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ButtonLeft">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>580</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>左</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ButtonRight">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>580</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>右</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ButtonScrach">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>620</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>抓</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ButtonPush">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>620</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>放</string>
     </property>
    </widget>
   </widget>

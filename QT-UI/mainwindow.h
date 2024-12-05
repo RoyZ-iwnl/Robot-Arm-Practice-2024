@@ -24,8 +24,13 @@ public:
 private slots:
     // 角度控制槽函数
     void onSliderValueChanged(int value);    // 滑块更新角度
-    void onSendAngleClicked(); 
-    void onSendAllAnglesClicked ();             // 发送角度指令
+    void onSendAngleClicked();
+    void onSendAllAnglesClicked ();        // 发送角度指令
+    void onResetClicked();//重置
+    void onLeftClicked();//左
+    void onRightClicked();//右
+    void onScrachClicked();//抓
+    void onPushClicked();//放
 
     // 连接面板槽函数
     void onConnectClicked();                 // 连接服务器

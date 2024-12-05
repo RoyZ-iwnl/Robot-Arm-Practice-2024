@@ -8,7 +8,7 @@
 #include <errno.h>
 
 #define PORT 6657
-#define SERIAL_PORT "/dev/ttyUSB0"  // 根据实际情况选择串口设备
+#define SERIAL_PORT "/dev/ttyUSB0"  // 串口设备地址？？？？
 
 // 打开串口
 int open_serial_port(const char *port) {
@@ -66,7 +66,7 @@ void send_response(int client_fd, const char *message) {
 
 // 解析接收到的指令并打印角度信息
 void process_command(int client_fd, int serial_fd, const unsigned char *buffer, ssize_t len) {
-    if (len < 4) {
+    if (len < 3) {
         printf("指令数据不完整\n");
         return;
     }

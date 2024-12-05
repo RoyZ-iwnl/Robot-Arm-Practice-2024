@@ -96,7 +96,7 @@ void MainWindow::onSendAllAnglesClicked() {
             if (socket->waitForBytesWritten()) {  // 等待数据写入完成
                 if (socket->waitForReadyRead()) {  // 等待服务器响应
                     QByteArray response = socket->readAll();
-                    logMessage(QString("收到服务器响应: %1").arg(QString(response)));
+                    logMessage(QString("正在发送轴 %1 的角度").arg(i+1));
                 }
             }
         } else {

@@ -54,3 +54,4 @@ compile_commands.json
 
 *_qmlcache.qrc
 .qtc_clangd/
+QT-UI(Sample)/

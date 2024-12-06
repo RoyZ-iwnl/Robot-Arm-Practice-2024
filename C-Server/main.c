@@ -68,10 +68,10 @@ void send_response(int client_fd, const char *message) {
 void Reset(int fd) {
     unsigned char BUF[6][3] = 
     {
+        {0xaa,0x00,0x5A},
         {0xaa,0x01,0x5A},
         {0xaa,0x02,0x5A},
-        {0xaa,0x03,0x5A},
-        {0xaa,0x00,0x5A},
+        {0xaa,0x03,0x5A},        
         {0xaa,0x04,0x5A},
         {0xaa,0x05,0x5A},
     };
@@ -81,31 +81,27 @@ void Reset(int fd) {
     }
 }
 
-void Left(int fd) {
-    unsigned char BUF[5][3] = 
+void Down(int fd) {
+    unsigned char BUF[3][3] = 
     {
-        {0xaa,0x00,0x00},
-        {0xaa,0x01,0x38},
-        {0xaa,0x02,0x0c},
-        {0xaa,0x03,0x14},
-        {0xaa,0x05,0x63},
+        {0xaa,0x01,0x78},
+        {0xaa,0x02,0x3F},
+        {0xaa,0x03,0x48},
     };
-    for(int i = 0;i < 5;i++) {
+    for(int i = 0;i < 3;i++) {
         write(fd,BUF[i],3);
         usleep(500000);
     }
 }
 
-void Right(int fd) {
-    unsigned char BUF[5][3] = 
+void Up(int fd) {
+    unsigned char BUF[3][3] = 
     {
-        {0xaa,0x00,0xB4},    // 底座右转
-        {0xaa,0x01,0x38},
-        {0xaa,0x02,0x0c},
-        {0xaa,0x03,0x14},
-        {0xaa,0x05,0x63},
+        {0xaa,0x03,0x5A},
+        {0xaa,0x02,0x5A},
+        {0xaa,0x01,0x5A},
     };
-    for(int i = 0;i < 5;i++) {
+    for(int i = 0;i < 3;i++) {
         write(fd,BUF[i],3);
         usleep(500000);
     }
@@ -180,10 +176,10 @@ void process_command(int client_fd, int serial_fd, const unsigned char *buffer, 
                 Reset(serial_fd);
                 break;
             case 0x01:  // 左转
-                Left(serial_fd);
+                Down(serial_fd);
                 break;
             case 0x02:  // 右转
-                Right(serial_fd);
+                Up(serial_fd);
                 break;
             case 0x03:  // 抓
                 Scrach(serial_fd);

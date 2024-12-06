@@ -28,6 +28,7 @@
     </property>
     <property name="font">
      <font>
+      <family>微软雅黑</family>
       <pointsize>14</pointsize>
      </font>
     </property>
@@ -714,7 +715,7 @@
      <string>重置为90°</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="ButtonLeft">
+   <widget class="QPushButton" name="ButtonDown">
     <property name="geometry">
      <rect>
       <x>170</x>
@@ -724,10 +725,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>左</string>
+     <string>低头</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="ButtonRight">
+   <widget class="QPushButton" name="ButtonUp">
     <property name="geometry">
      <rect>
       <x>280</x>
@@ -737,7 +738,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>右</string>
+     <string>抬头</string>
     </property>
    </widget>
    <widget class="QPushButton" name="ButtonScrach">
@@ -764,6 +765,38 @@
     </property>
     <property name="text">
      <string>放</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_13">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>260</y>
+      <width>81</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>底座旋转</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_14">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>510</y>
+      <width>81</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>旋转抓手</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>

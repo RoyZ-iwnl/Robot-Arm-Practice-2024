@@ -27,8 +27,8 @@ private slots:
     void onSendAngleClicked();
     void onSendAllAnglesClicked ();        // 发送角度指令
     void onResetClicked();//重置
-    void onLeftClicked();//左
-    void onRightClicked();//右
+    void onDownClicked();//左
+    void onUpClicked();//右
     void onScrachClicked();//抓
     void onPushClicked();//放
 

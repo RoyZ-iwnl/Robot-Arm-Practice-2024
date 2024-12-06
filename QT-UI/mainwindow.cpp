@@ -42,8 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->ButtonSendALL, &QPushButton::clicked, this, &MainWindow::onSendAllAnglesClicked);
     connect(ui->ButtonReset, &QPushButton::clicked, this, &MainWindow::onResetClicked);
-    connect(ui->ButtonLeft, &QPushButton::clicked, this, &MainWindow::onLeftClicked);
-    connect(ui->ButtonRight, &QPushButton::clicked, this, &MainWindow::onRightClicked);
+    connect(ui->ButtonDown, &QPushButton::clicked, this, &MainWindow::onDownClicked);
+    connect(ui->ButtonUp, &QPushButton::clicked, this, &MainWindow::onUpClicked);
     connect(ui->ButtonScrach, &QPushButton::clicked, this, &MainWindow::onScrachClicked);
     connect(ui->ButtonPush, &QPushButton::clicked, this, &MainWindow::onPushClicked);
 
@@ -184,11 +184,11 @@ void MainWindow::onResetClicked() {
 
 
 
-void MainWindow::onLeftClicked() {
+void MainWindow::onDownClicked() {
         QByteArray command;
         command.append(0xBB); // BB包头
         command.append(static_cast<char>(0x01));
-        logMessage(QString("正在整体左移"));
+        logMessage(QString("正在低头"));
         if (socket->isOpen()) {
             socket->write(command);
             if (socket->waitForBytesWritten()) {  // 等待数据写入完成
@@ -201,11 +201,11 @@ void MainWindow::onLeftClicked() {
         }
 }
 
-void MainWindow::onRightClicked() {
+void MainWindow::onUpClicked() {
         QByteArray command;
         command.append(0xBB); // BB包头
         command.append(static_cast<char>(0x02));
-        logMessage(QString("正在整体右移"));
+        logMessage(QString("正在整体抬头"));
         if (socket->isOpen()) {
             socket->write(command);
             if (socket->waitForBytesWritten()) {  // 等待数据写入完成

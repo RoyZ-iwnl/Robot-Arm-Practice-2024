@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1094</width>
-    <height>734</height>
+    <width>1100</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -55,7 +55,7 @@
     <property name="geometry">
      <rect>
       <x>940</x>
-      <y>350</y>
+      <y>330</y>
       <width>93</width>
       <height>28</height>
      </rect>
@@ -229,7 +229,7 @@
     <property name="geometry">
      <rect>
       <x>940</x>
-      <y>270</y>
+      <y>250</y>
       <width>93</width>
       <height>28</height>
      </rect>
@@ -473,7 +473,7 @@
     <property name="geometry">
      <rect>
       <x>940</x>
-      <y>310</y>
+      <y>290</y>
       <width>93</width>
       <height>28</height>
      </rect>
@@ -666,14 +666,14 @@
    <widget class="QPushButton" name="ButtonQuit">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>830</y>
+      <x>940</x>
+      <y>370</y>
       <width>93</width>
       <height>28</height>
      </rect>
     </property>
     <property name="text">
-     <string>QUIT!</string>
+     <string>关闭服务器</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_12">

@@ -141,6 +141,13 @@ void process_command(int client_fd, int serial_fd, const unsigned char *buffer, 
         return;
     }
 
+    // 处理特殊字符串指令
+    if (strncmp((char *)buffer, "TEST", 4) == 0) {
+        printf("收到TEST指令，回复测试成功\n");
+        send_response(client_fd, "TEST指令已收到，连接正常");
+        return;
+    }
+
     // 处理0xAA协议
     if (buffer[0] == 0xAA) {
         unsigned char axis = buffer[1];
@@ -160,13 +167,13 @@ void process_command(int client_fd, int serial_fd, const unsigned char *buffer, 
         char response[256];
         snprintf(response, sizeof(response), "指令已收到：轴 %d 的角度设置为 %d°", axis + 1, angle);
         send_response(client_fd, response);
+        return;
     }
 
     // 处理0xBB协议
     else if (buffer[0] == 0xBB) {
-    unsigned char command_type = buffer[1];
-
-
+        unsigned char command_type = buffer[1];
+        
         // 根据不同的command_type调用对应的动作
         switch (command_type) {
             case 0x00:  // 全部角度为5A
@@ -191,10 +198,17 @@ void process_command(int client_fd, int serial_fd, const unsigned char *buffer, 
 
         // 向客户端发送响应
         send_response(client_fd, "0xBB命令已执行\n");
-    } else {
+        return;
+    }
+
+    // 处理无效包头
+    else {
         printf("无效的包头\n");
+        send_response(client_fd, "无效的指令包头");
+        return;
     }
 }
+
 
 // 监听并接收控制面板指令
 void listen_and_debug() {
@@ -254,14 +268,14 @@ void listen_and_debug() {
         while ((len = read(client_fd, buffer, sizeof(buffer))) > 0) {
             buffer[len] = '\0';  // 确保字符串结束
 
-            // 如果接收到quit指令，退出程序
-            if (strncmp((char *)buffer, "quit", 4) == 0) {
-                printf("收到quit指令，关闭程序...\n");
-                send_response(client_fd, "中转程序已关闭");
-                close(client_fd);
-                close(serial_fd);
-                close(server_fd);
-                return;  // 退出程序
+            // 修改quit检测逻辑
+        if (len == 4 && strncmp((char *)buffer, "quit", 4) == 0) {
+            printf("收到quit指令，关闭程序...\n");
+            send_response(client_fd, "中转程序已关闭");
+            close(client_fd);
+            close(serial_fd);
+            close(server_fd);
+            exit(0);  // 直接退出程序
             }
 
             // 处理并打印接收到的角度控制指令

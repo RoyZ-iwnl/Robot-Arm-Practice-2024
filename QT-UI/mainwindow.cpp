@@ -4,7 +4,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), socket(new QTcpSocket(this)) {
     ui->setupUi(this);
-    this->setWindowTitle("机械臂控制中心v0.2 Beta By:RoyZ");
+    this->setWindowTitle("机械臂控制中心v1.0 Alpha By:RoyZ");
+    setFixedSize(1100, 700);
 
 
 
